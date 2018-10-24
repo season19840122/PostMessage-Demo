@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index</title>
+</head>
+<body style="border:5px solid #333;">
+
+  <h1>this is index</h1>
+
+  <iframe src="http://127.0.0.1:8082/iframePage.html" id='myframe'></iframe>
+
+  <script>
+    // 获取 iframe 元素
+    iFrame = document.getElementById('myframe');
+
+    // iframe 加载完毕后再发送消息，否则子页面接收不到 message
+    // iFrame.onload = function(){
+    //   //iframe 加载完立即发送一条消息
+    //   iFrame.contentWindow.postMessage('MessageFromIndex1','*');
+
+    //   //iframe 加载完再延迟 1000ms 发送一条消息
+    //   setTimeout(()=>{
+    //     iFrame.contentWindow.postMessage('MessageFromIndex2','*');
+    //   },1000)
+    // }
+    
+    /**
+     * 监听子页面发送来的消息
+     */
+    // 回调函数
+    function receiveMessageFromIframePage (event) {
+      // console.log(event.data);
+      if (event.origin !== 'http://127.0.0.1:8082') return;
+      if (event.data === 'success') {
+        alert('Success');
+      } else {
+        console.log(event.data);
+      }
+    }
+
+    // 监听 message 事件
+    window.addEventListener('message', receiveMessageFromIframePage, false);
+  </script>
+</body>
+</html>
